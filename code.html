@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Investment Page</title>
+    <style>
+      /* Your existing CSS */
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f0f2f5;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      .header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background-color: #eef5ff;
+        padding: 10px 0;
+        display: flex;
+        justify-content: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+      }
+
+      .header-tab {
+        margin: 0 15px;
+        padding: 10px 20px;
+        color: #fff;
+        background-color: #ffcc00;
+        border-radius: 20px;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 18px;
+      }
+
+      .header-tab.inactive {
+        background-color: #c2d3ff;
+        color: #7b8ba1;
+      }
+
+      .content {
+        flex: 1;
+        padding: 20px;
+        margin-top: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        position: relative;
+      }
+
+      .investment-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        width: 100%;
+        max-width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+        overflow-y: auto;
+        position: relative;
+      }
+
+      .investment-card {
+        background-color: #fff;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+        font-size: 16px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .investment-card h2 {
+        font-size: 24px;
+        margin-bottom: 15px;
+        font-weight: bold;
+      }
+
+      .investment-card p {
+        margin: 5px 0;
+        color: #555;
+        font-size: 18px;
+      }
+
+      .investment-card .value {
+        font-weight: bold;
+        font-size: 20px;
+        float: right;
+      }
+
+      .investment-card .state {
+        color: green;
+        font-weight: bold;
+      }
+
+      .investment-card .vip-level {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+      }
+
+      .investment-card .vip-level img {
+        margin-right: 5px;
+      }
+
+      .investment-card .invest-now {
+        display: block;
+        margin-top: 20px;
+        color: #007bff;
+        font-weight: bold;
+        text-decoration: none;
+        font-size: 18px;
+      }
+
+      .investment-card .background-image {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 25%;
+        height: 100%;
+        opacity: 0.8;
+        object-fit: cover;
+        z-index: -1;
+      }
+
+      .footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background: linear-gradient(to right, #1a508b, #1d87cb);
+        display: flex;
+        justify-content: space-around;
+        padding: 15px 0;
+        z-index: 1000;
+      }
+
+      .footer-item {
+        color: white;
+        text-align: center;
+        flex: 1;
+        font-size: 16px;
+      }
+
+      .footer-item img {
+        width: 24px;
+        height: 24px;
+        margin-bottom: 5px;
+      }
+
+      .footer-item span {
+        display: block;
+        font-size: 16px;
+      }
+
+      @media screen and (max-width: 768px) {
+        .investment-card {
+          width: 90%;
+          max-width: 90%;
+        }
+      }
+
+      @media screen and (max-width: 480px) {
+        .investment-card {
+          width: 90%;
+          max-width: 90%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <div class="header">
+      <div class="header-tab active" id="stable-tab">Stable</div>
+      <div class="header-tab inactive" id="welfare-tab">Welfare</div>
+      <div class="header-tab inactive" id="activity-tab">Activity</div>
+    </div>
+
+    <!-- Investment Content -->
+    <div class="content">
+      <div class="investment-container" id="investment-container">
+        <!-- Initial Investment Plans go here -->
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-item" id="home-tab">
+        <img
+          src="https://img.icons8.com/ios-filled/50/ffffff/info.png"
+          alt="Home Icon"
+        />
+        <span>Home</span>
+      </div>
+      <div class="footer-item" id="invest-tab">
+        <img
+          src="https://img.icons8.com/ios-filled/50/ffffff/investment.png"
+          alt="Invest Icon"
+        />
+        <span>Invest</span>
+      </div>
+      <div class="footer-item" id="task-tab">
+        <img
+          src="https://img.icons8.com/ios-filled/50/ffffff/gift.png"
+          alt="Task Icon"
+        />
+        <span>Task</span>
+      </div>
+      <div class="footer-item" id="club-tab">
+        <img
+          src="https://img.icons8.com/ios-filled/50/ffffff/conference-call.png"
+          alt="Club Icon"
+        />
+        <span>Club</span>
+      </div>
+      <div class="footer-item" id="account-tab">
+        <img
+          src="https://img.icons8.com/ios-filled/50/ffffff/user.png"
+          alt="Account Icon"
+        />
+        <span>Account</span>
+      </div>
+    </footer>
+    <script>
+      // Function to redirect to another page
+      function redirectToPage(url) {
+        window.location.href = url;
+      }
+
+      // Event listeners for footer items
+      document
+        .getElementById("home-tab")
+        .addEventListener("click", function () {
+          redirectToPage("home.html");
+        });
+
+      document
+        .getElementById("invest-tab")
+        .addEventListener("click", function () {
+          redirectToPage("payment.html");
+        });
+
+      document
+        .getElementById("task-tab")
+        .addEventListener("click", function () {
+          redirectToPage("task.html");
+        });
+
+      document
+        .getElementById("club-tab")
+        .addEventListener("click", function () {
+          redirectToPage("club.html");
+        });
+
+      document
+        .getElementById("account-tab")
+        .addEventListener("click", function () {
+          redirectToPage("account.html");
+        });
+
+      // Event listeners for header tabs
+      document
+        .getElementById("stable-tab")
+        .addEventListener("click", function () {
+          showInvestmentPlans("stable");
+        });
+      document
+        .getElementById("welfare-tab")
+        .addEventListener("click", function () {
+          showInvestmentPlans("welfare");
+        });
+
+      document
+        .getElementById("activity-tab")
+        .addEventListener("click", function () {
+          showInvestmentPlans("activity");
+        });
+
+      // Function to show different investment plans
+      function showInvestmentPlans(planType) {
+        const investmentContainer = document.getElementById(
+          "investment-container"
+        );
+        if (planType === "stable") {
+          investmentContainer.innerHTML = `
+
+    
+        <div class="investment-container">
+            <div class="investment-card">
+                <h2>Chemicals profits</h2>
+                <img src="th.jfif" alt="Chemical Image" class="background-image" />
+                <p>Each Price <span class="value">₹200.00</span></p>
+                <p>Daily earnings <span class="value">₹90.00</span></p>
+                <p>Total revenue <span class="value">₹1,800.00</span></p>
+                <p>Revenue days <span class="value">20 Days</span></p>
+
+                <p>State <span class="state">Sale</span></p>
+                <div class="vip-level">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/crown.png" alt="VIP Level" />
+                    <span>Need VIP Level 1</span>
+                </div>
+                <a href="payment.html" class="invest-now">Invest Now →</a>
+            </div>
+            <div class="investment-container">
+                <div class="investment-card">
+                    <h2>Chemicals profits</h2>
+                    <img src="th.jfif" alt="Chemical Image" class="background-image" />
+                    <p>Each Price <span class="value">₹375.00</span></p>
+                    <p>Daily earnings <span class="value">₹150.00</span></p>
+                    <p>Total revenue <span class="value">₹5,550.00</span></p>
+                    <p>Revenue days <span class="value">37 Days</span></p>
+    
+                    <p>State <span class="state">Sale</span></p>
+                    <div class="vip-level">
+                        <img src="https://img.icons8.com/ios-filled/50/000000/crown.png" alt="VIP Level" />
+                        <span>Need VIP Level 2</span>
+                    </div>
+                    <a href="#" class="invest-now">Invest Now →</a>
+                </div>
+     
+                <div class="investment-container">
+                    <div class="investment-card">
+                        <h2>Chemicals profits</h2>
+                        <img src="th.jfif" alt="Chemical Image" class="background-image" />
+                        <p>Each Price <span class="value">₹1575.00</span></p>
+                        <p>Daily earnings <span class="value">₹545.00</span></p>
+                        <p>Total revenue <span class="value">₹23,892.00</span></p>
+                        <p>Revenue days <span class="value">37 Days</span></p>
+        
+                        <p>State <span class="state">Sale</span></p>
+                        <div class="vip-level">
+                            <img src="https://img.icons8.com/ios-filled/50/000000/crown.png" alt="VIP Level" />
+                            <span>Need VIP Level 3</span>
+                        </div>
+                        <a href="#" class="invest-now">Invest Now →</a>
+                    </div>
+                     <div class="investment-card">
+                <h2>Chemicals profits</h2>
+                <img src="th.jfif" alt="Chemical Image" class="background-image" />
+                <p>Each Price <span class="value">₹5,075.00</span></p>
+                <p>Daily earnings <span class="value">₹2,131.00</span></p>
+                <p>Total revenue <span class="value">₹78,856.00</span></p>
+                <p>Revenue days <span class="value">37 Days</span></p>
+
+                <p>State <span class="state">Sale</span></p>
+                <div class="vip-level">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/crown.png" alt="VIP Level" />
+                    <span>Need VIP Level 4</span>
+                </div>
+                <a href="#" class="invest-now">Invest Now →</a>
+            </div>
+             <div class="investment-card">
+                <h2>Chemicals profits</h2>
+                <img src="th.jfif" alt="Chemical Image" class="background-image" />
+                <p>Each Price <span class="value">₹17,775.00</span></p>
+                <p>Daily earnings <span class="value">₹7,821.00</span></p>
+                <p>Total revenue <span class="value">₹289,377.00</span></p>
+                <p>Revenue days <span class="value">37 Days</span></p>
+
+                <p>State <span class="state">Sale</span></p>
+                <div class="vip-level">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/crown.png" alt="VIP Level" />
+                    <span>Need VIP Level 5</span>
+                </div>
+                <a href="#" class="invest-now">Invest Now →</a>
+            </div>
+             <div class="investment-card">
+                <h2>Chemicals profits</h2>
+                <img src="th.jfif" alt="Chemical Image" class="background-image" />
+                <p>Each Price <span class="value">₹35,775.00</span></p>
+                <p>Daily earnings <span class="value">₹16,098.00</span></p>
+                <p>Total revenue <span class="value">₹595,550.75</span></p>
+                <p>Revenue days <span class="value">37 Days</span></p>
+
+                <p>State <span class="state">Sale</span></p>
+                <div class="vip-level">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/crown.png" alt="VIP Level" />
+                    <span>Need VIP Level 6</span>
+                </div>
+                <a href="#" class="invest-now">Invest Now →</a>
+            </div>
+             <div class="investment-card">
+                <h2>Chemicals profits</h2>
+                <img src="th.jfif" alt="Chemical Image" class="background-image" />
+                <p>Each Price <span class="value">₹50,000.00</span></p>
+                <p>Daily earnings <span class="value">₹23,000.00</span></p>
+                <p>Total revenue <span class="value">₹851,000.00</span></p>
+                <p>Revenue days <span class="value">37 Days</span></p>
+
+                <p>State <span class="state">Sale</span></p>
+                <div class="vip-level">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/crown.png" alt="VIP Level" />
+                    <span>Need VIP Level 7</span>
+                </div>
+                <a href="#" class="invest-now">Invest Now →</a>
+            </div>
+             
+            <!-- Repeat investment-card blocks as needed -->
+        </div>
+    </div>
+          `;
+        }
+
+        if (planType === "welfare") {
+          investmentContainer.innerHTML = `
+                      <div class="investment-container">
+            <div class="investment-card">
+                <h2>Chemicals profits</h2>
+                <img src="th.jfif" alt="Chemical Image" class="background-image" />
+                <p>Each Price <span class="value">₹100.00</span></p>
+                <p>Daily earnings <span class="value">₹150.00</span></p>
+                <p>Total revenue <span class="value">₹300.00</span></p>
+                <p>Revenue days <span class="value">2 Days</span></p>
+
+                <p>State <span class="state">Sale</span></p>
+                <div class="vip-level">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/crown.png" alt="VIP Level" />
+                    <span>Need VIP Level 1</span>
+                </div>
+                <a href="#" class="invest-now">Invest Now →</a>
+            </div>
+            <div class="investment-container">
+                <div class="investment-card">
+                    <h2>Chemicals profits</h2>
+                    <img src="th.jfif" alt="Chemical Image" class="background-image" />
+                    <p>Each Price <span class="value">₹500.00</span></p>
+                    <p>Daily earnings <span class="value">₹160.00</span></p>
+                    <p>Total revenue <span class="value">₹800.00</span></p>
+                    <p>Revenue days <span class="value">3 Days</span></p>
+    
+                    <p>State <span class="state">Sale</span></p>
+                    <div class="vip-level">
+                        <img src="https://img.icons8.com/ios-filled/50/000000/crown.png" alt="VIP Level" />
+                        <span>Need VIP Level 2</span>
+                    </div>
+                    <a href="#" class="invest-now">Invest Now →</a>
+                </div>
+     
+                <div class="investment-container">
+                    <div class="investment-card">
+                        <h2>Chemicals profits</h2>
+                        <img src="th.jfif" alt="Chemical Image" class="background-image" />
+                        <p>Each Price <span class="value">₹1,575.00</span></p>
+                        <p>Daily earnings <span class="value">₹787.00</span></p>
+                        <p>Total revenue <span class="value">₹2,362.00</span></p>
+                        <p>Revenue days <span class="value">3 Days</span></p>
+        
+                        <p>State <span class="state">Sale</span></p>
+                        <div class="vip-level">
+                            <img src="https://img.icons8.com/ios-filled/50/000000/crown.png" alt="VIP Level" />
+                            <span>Need VIP Level 3</span>
+                        </div>
+                        <a href="#" class="invest-now">Invest Now →</a>
+                    </div>
+                     <div class="investment-card">
+                <h2>Chemicals profits</h2>
+                <img src="th.jfif" alt="Chemical Image" class="background-image" />
+                <p>Each Price <span class="value">₹5,075.00</span></p>
+                <p>Daily earnings <span class="value">₹2,537.00</span></p>
+                <p>Total revenue <span class="value">₹7,12.00</span></p>
+                <p>Revenue days <span class="value">3 Days</span></p>
+
+                <p>State <span class="state">Sale</span></p>
+                <div class="vip-level">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/crown.png" alt="VIP Level" />
+                    <span>Need VIP Level 4</span>
+                </div>
+                <a href="#" class="invest-now">Invest Now →</a>
+            </div>
+             <div class="investment-card">
+                <h2>Chemicals profits</h2>
+                <img src="th.jfif" alt="Chemical Image" class="background-image" />
+                <p>Each Price <span class="value">₹17,775.00</span></p>
+                <p>Daily earnings <span class="value">₹10,566.00</span></p>
+                <p>Total revenue <span class="value">₹31,995.00</span></p>
+                <p>Revenue days <span class="value">3 Days</span></p>
+
+                <p>State <span class="state">Sale</span></p>
+                <div class="vip-level">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/crown.png" alt="VIP Level" />
+                    <span>Need VIP Level 5</span>
+                </div>
+                <a href="#" class="invest-now">Invest Now →</a>
+            </div>
+             
+
+                  `;
+        } else if (planType === "activity") {
+          investmentContainer.innerHTML = `
+
+          <div class="investment-container">
+                <div class="investment-card">
+                    <h2>Chemicals profits</h2>
+                    <img src="th.jfif" alt="Chemical Image" class="background-image" />
+                    <p>Each Price <span class="value">₹979.00</span></p>
+                    <p>Daily earnings <span class="value">₹700.00</span></p>
+                    <p>Total revenue <span class="value">₹2,100.00</span></p>
+                    <p>Revenue days <span class="value">3 Days</span></p>
+    
+                    <p>State <span class="state">Sale</span></p>
+                    <div class="vip-level">
+                        <img src="https://img.icons8.com/ios-filled/50/000000/crown.png" alt="VIP Level" />
+                        <span>Need VIP Level 1</span>
+                    </div>
+                    <a href="#" class="invest-now">Invest Now →</a>
+                </div>
+     
+                     <div class="investment-container">
+            <div class="investment-card">
+                <h2>Chemicals profits</h2>
+                <img src="th.jfif" alt="Chemical Image" class="background-image" />
+                <p>Each Price <span class="value">₹2,937.00</span></p>
+                <p>Daily earnings <span class="value">₹1732.00</span></p>
+                <p>Total revenue <span class="value">₹36,389.00</span></p>
+                <p>Revenue days <span class="value">21 Days</span></p>
+
+                <p>State <span class="state">Sale</span></p>
+                <div class="vip-level">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/crown.png" alt="VIP Level" />
+                    <span>Need VIP Level 2</span>
+                </div>
+                <a href="#" class="invest-now">Invest Now →</a>
+            </div>
+            <div class="investment-container">
+                <div class="investment-card">
+                    <h2>Chemicals profits</h2>
+                    <img src="th.jfif" alt="Chemical Image" class="background-image" />
+                    <p>Each Price <span class="value">₹93.00</span></p>
+                    <p>Daily earnings <span class="value">₹55.00</span></p>
+                    <p>Total revenue <span class="value">₹12,303.00</span></p>
+                    <p>Revenue days <span class="value">21 Days</span></p>
+    
+                    <p>State <span class="state">Sale</span></p>
+                    <div class="vip-level">
+                        <img src="https://img.icons8.com/ios-filled/50/000000/crown.png" alt="VIP Level" />
+                        <span>Need VIP Level 3</span>
+                    </div>
+                    <a href="#" class="invest-now">Invest Now →</a>
+                </div>
+     
+                <div class="investment-container">
+                    <div class="investment-card">
+                        <h2>Chemicals profits</h2>
+                        <img src="th.jfif" alt="Chemical Image" class="background-image" />
+                        <p>Each Price <span class="value">₹3,311.00</span></p>
+                        <p>Daily earnings <span class="value">₹1,887.27</span></p>
+                        <p>Total revenue <span class="value">₹5,550.00</span></p>
+                        <p>Revenue days <span class="value">17 Days</span></p>
+        
+                        <p>State <span class="state">Sale</span></p>
+                        <div class="vip-level">
+                            <img src="https://img.icons8.com/ios-filled/50/000000/crown.png" alt="VIP Level" />
+                            <span>Need VIP Level 4</span>
+                        </div>
+                        <a href="#" class="invest-now">Invest Now →</a>
+                    </div>
+                     <div class="investment-card">
+                <h2>Chemicals profits</h2>
+                <img src="th.jfif" alt="Chemical Image" class="background-image" />
+                <p>Each Price <span class="value">₹375.00</span></p>
+                <p>Daily earnings <span class="value">₹150.00</span></p>
+                <p>Total revenue <span class="value">₹5,550.00</span></p>
+                <p>Revenue days <span class="value">37 Days</span></p>
+
+                <p>State <span class="state">Sale</span></p>
+                <div class="vip-level">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/crown.png" alt="VIP Level" />
+                    <span>Need VIP Level 5</span>
+                </div>
+                <a href="#" class="invest-now">Invest Now →</a>
+            </div>
+             <div class="investment-card">
+                <h2>Chemicals profits</h2>
+                <img src="th.jfif" alt="Chemical Image" class="background-image" />
+                <p>Each Price <span class="value">₹375.00</span></p>
+                <p>Daily earnings <span class="value">₹150.00</span></p>
+                <p>Total revenue <span class="value">₹5,550.00</span></p>
+                <p>Revenue days <span class="value">37 Days</span></p>
+
+                <p>State <span class="state">Sale</span></p>
+                <div class="vip-level">
+                    <img src="https://img.icons8.com/ios-filled/50/000000/crown.png" alt="VIP Level" />
+                    <span>Need VIP Level 7</span>
+                </div>
+                <a href="#" class="invest-now">Invest Now →</a>
+            </div>
+
+                  `;
+        }
+      }
+
+      // Display the Stable plans by default when the page loads
+      showInvestmentPlans("stable");
+    </script>
+  </body>
+</html>
+https://img.icons8.com/ios-filled/50/ffffff/conference-call.png

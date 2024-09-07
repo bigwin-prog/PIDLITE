@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pidilite Welcome Page</title>
+  <style>
+    /* Global Styles */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #d8e9f6;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Header Section */
+    header {
+      background-color: #b6d7f7;
+      display: flex;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .header-logo .logo {
+      width: 50px;
+      height: auto;
+      margin-right: 10px;
+    }
+
+    header h1 {
+      font-size: 24px;
+      color: #175996;
+      margin: 0;
+    }
+
+    /* Welcome Section */
+    .welcome-section {
+      text-align: center;
+      padding: 50px;
+    }
+
+    .welcome-section h2 {
+      color: #175996;
+      font-size: 36px;
+    }
+
+    .about-section h3 {
+      color: #333;
+      font-size: 22px;
+      margin-top: 20px;
+    }
+
+    .about-section p {
+      font-size: 18px;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* Popup Styles */
+    .popup {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .popup-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 15px;
+      width: 400px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .popup-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .popup-header img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+
+    .popup-header h2 {
+      font-size: 22px;
+      margin-left: 10px;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .popup-header .close-btn {
+      background-color: red;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 25px;
+      height: 25px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .popup-content p {
+      font-size: 14px;
+      color: #666;
+      margin: 10px 0;
+    }
+
+    .follow-btn {
+      background-color: #003f82;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .follow-btn:hover {
+      background-color: #002f63;
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: linear-gradient(to right, #1a508b, #1d87cb);
+      display: flex;
+      justify-content: space-around;
+      padding: 15px 0;
+      z-index: 1000;
+    }
+
+    .footer-item {
+      color: white;
+      text-align: center;
+      flex: 1;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .footer-item img {
+      width: 24px;
+      height: 24px;
+      margin-bottom: 5px;
+    }
+
+    .footer-item span {
+      display: block;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Main Content -->
+  <header>
+    <div class="header-logo">
+      <img src="LOGO.png" alt="Pidilite Logo" class="logo" />
+      <h1>INDUSTRIAL PRODUCTS</h1>
+    </div>
+  </header>
+
+  <section class="welcome-section">
+    <h2>Welcome to the Pidilite Family</h2>
+    <div class="about-section">
+      <h3>About Pidilite</h3>
+      <p>
+        Since its inception in 1959, Pidilite Industries Limited has been a
+        pioneer in consumer and speciality chemicals in India.
+      </p>
+      <h3>Pioneers in Adhesives, Waterproofing, Pigments, and More</h3>
+      <p>
+        As a customer-centric company, we listened to our consumers and thus
+        have been able to bring quality and innovation to your life. Whether
+        it is small or large applications, in the home or for industry, we are
+        dedicated to making products and solutions that offer lifelong
+        reliability.
+      </p>
+      <p>
+        Today, we have carved a space for ourselves in households and across
+        industries. Our ground-breaking adhesives are market leaders. Our
+        reach has expanded across borders and shores, making Pidilite products
+        accessible to various markets, demographics, geographies, and people
+        from all walks of life.
+      </p>
+    </div>
+  </section>
+
+  <!-- Popup for Treasure Box -->
+  <div class="popup" id="popup">
+    <div class="popup-content">
+      <div class="popup-header">
+        <div style="display: flex; align-items: center">
+          <img src="telegramlogo.jfif" alt="Telegram Icon" />
+          <h2>Official Channel</h2>
+        </div>
+        <button class="close-btn" id="closePopup">&times;</button>
+      </div>
+      <p>Follow our official channel for the latest news</p>
+      <button class="follow-btn" id="followChannelBtn">Follow the channel</button>
+      <!-- Customer Care Option -->
+      <h3 style="margin-top: 20px; color: #175996;">Need Help?</h3>
+      <p>If you have any issue contact the telegram id given below</p>
+      <button class="follow-btn" id="customerCareBtn" style="background-color: #28a745; margin-top: 10px;">@Customcareandstates</button>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-item" id="homeBtn">
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/info.png" alt="Home Icon" />
+      <span>Home</span>
+    </div>
+    <div class="footer-item" id="investBtn">
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/investment.png" alt="Invest Icon" />
+      <span>Invest</span>
+    </div>
+    <div class="footer-item" id="taskBtn">
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/gift.png" alt="Task Icon" />
+      <span>Task</span>
+    </div>
+    <div class="footer-item" id="clubBtn">
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/conference-call.png" alt="Club Icon" />
+      <span>Club</span>
+    </div>
+    <div class="footer-item" id="accountBtn">
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/user.png" alt="Account Icon" />
+      <span>Account</span>
+    </div>
+  </footer>
+
+  <script>
+    // Close the popup when close button is clicked
+    document.getElementById("closePopup").onclick = function () {
+      document.getElementById("popup").style.display = "none";
+    };
+
+    // Redirect to the Follow Channel page
+    document.getElementById("followChannelBtn").onclick = function () {
+      window.location.href = "https://t.me/+L03sh0NQl4JmNmU1"; // Replace with the actual link
+    };
+
+    // Redirect to the Customer Care page
+    document.getElementById("customerCareBtn").onclick = function () {
+      window.location.href = "@Customcareandstates"; // Replace with the actual link or page
+    };
+
+    // Redirect to specific pages when footer buttons are clicked
+    document.getElementById("homeBtn").onclick = function () {
+      window.location.href = "home.html"; // Replace with the actual link
+    };
+
+    document.getElementById("investBtn").onclick = function () {
+      window.location.href = "invest.html"; // Replace with the actual link
+    };
+
+    document.getElementById("taskBtn").onclick = function () {
+      window.location.href = "task.html"; // Replace with the actual link
+    };
+
+    document.getElementById("clubBtn").onclick = function () {
+      window.location.href = "club.html"; // Replace with the actual link
+    };
+
+    document.getElementById("accountBtn").onclick = function () {
+      window.location.href = "account.html"; // Replace with the actual link
+    };
+  </script>
+</body>
+</html>

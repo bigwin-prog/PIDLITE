@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI Layout with Online Logos</title>
+    <style>
+        /* Existing styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e8f4ff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .header img {
+            max-width: 50px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+
+        .progress-bar span {
+            display: block;
+            height: 8px;
+            width: 0%;
+            background-color: #aaa;
+            border-radius: 5px;
+        }
+
+        .balance-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .balance-item {
+            flex: 1 1 calc(33.333% - 20px);
+            text-align: center;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .balance-item span {
+            display: block;
+            font-size: 30px;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: space-between;
+        }
+
+        .action-button {
+            flex: 1 1 calc(25% - 20px);
+            padding: 15px;
+            background-color: #ffc107;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .action-button img {
+            width: 40px;
+            margin-bottom: 10px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .list {
+            margin-bottom: 30px;
+        }
+
+        .list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            margin: 5px 0;
+            cursor: pointer;
+        }
+
+        .list-item img {
+            width: 30px;
+            margin-right: 15px;
+        }
+
+        .list-item span {
+            flex-grow: 1;
+            text-align: left;
+        }
+
+        .arrow {
+            color: gray;
+            font-size: 24px;
+        }
+
+        /* New styles for the popup */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .popup-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .popup-content button {
+            padding: 10px 20px;
+            background-color: #ffc107;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .popup-content button:hover {
+            background-color: #e0a800;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .balance-item {
+                flex: 1 1 100%;
+                margin-bottom: 20px;
+            }
+
+            .action-button {
+                flex: 1 1 45%;
+                margin-bottom: 20px;
+            }
+
+            .list-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .list-item span {
+                text-align: left;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header img {
+                max-width: 40px;
+            }
+
+            .balance-item {
+                font-size: 16px;
+            }
+
+            .action-button {
+                font-size: 16px;
+            }
+
+            .list-item img {
+                width: 25px;
+            }
+
+            .list-item span {
+                font-size: 14px;
+            }
+
+            .arrow {
+                font-size: 20px;
+            }
+        }
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: linear-gradient(to right, #1a508b, #1d87cb);
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            z-index: 1000;
+        }
+
+        .footer-item {
+            color: white;
+            text-align: center;
+            flex: 1;
+            font-size: 16px;
+        }
+
+        .footer-item img {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 5px;
+        }
+
+        .footer-item span {
+            display: block;
+            font-size: 16px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div>
+                <img src="https://img.icons8.com/ios-filled/50/000000/user-male-circle.png" alt="Profile Icon">
+                <p>Player set name</p>
+                <p>**********(80887280)</p>
+            </div>
+        </div>
+
+        <div class="progress-bar">
+            <span style="width: 0%;"></span>
+        </div>
+
+        <div class="balance-section">
+            <div class="balance-item">
+                <span>₹10</span>
+                Balance
+            </div>
+            <div class="balance-item">
+                <span>₹0</span>
+                Total Deposit
+            </div>
+            <div class="balance-item">
+                <span>₹0</span>
+                Total Withdraw
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <div class="action-button" data-page="deposit">
+                <img src="https://img.icons8.com/ios-filled/50/000000/money-bag.png" alt="Deposit Icon">
+                Deposit
+            </div>
+            <div class="action-button" data-page="withdraw">
+                <img src="https://img.icons8.com/ios-filled/50/000000/cash-in-hand.png" alt="Withdraw Icon">
+                Withdraw
+            </div>
+            <div class="action-button" data-page="myorder">
+                <img src="https://img.icons8.com/ios-filled/50/000000/list.png" alt="My Order Icon">
+                My Order
+            </div>
+            <div class="action-button" data-page="cardbag">
+                <img src="https://img.icons8.com/ios-filled/50/000000/wallet.png" alt="Card Bag Icon">
+                Card Bag
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="section-title">My business</div>
+        <div class="list">
+            <div class="list-item" data-page="team">
+                <img src="https://img.icons8.com/ios-filled/30/000000/businessman.png" alt="Team Icon">
+                <span>Team</span>
+                <div class="arrow">></div>
+            </div>
+            <div class="list-item" data-page="commission">
+                <img src="https://img.icons8.com/ios-filled/30/000000/percentage.png" alt="Commission Icon">
+                <span>Commission</span>
+                <div class="arrow">></div>
+            </div>
+        </div>
+        <div class="section-title">Fund record</div>
+        <div class="list">
+            <div class="list-item" data-page="balance">
+                <img src="https://img.icons8.com/ios-filled/30/000000/money.png" alt="Balance Icon">
+                <span>Balance</span>
+                <div class="arrow">></div>
+            </div>
+            <div class="list-item" data-page="deposit">
+                <img src="https://img.icons8.com/ios-filled/30/000000/atm.png" alt="Deposit Icon">
+                <span>Deposit</span>
+                <div class="arrow">></div>
+            </div>
+            <div class="list-item" data-page="withdraw">
+                <img src="https://img.icons8.com/ios-filled/30/000000/cash.png" alt="Withdraw Icon">
+                <span>Withdraw</span>
+                <div class="arrow">></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="popup" id="popup">
+        <div class="popup-content">
+            <p>Popup message goes here.</p>
+            <button onclick="closePopup()">Close</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="footer-item" onclick="navigateTo('home')">
+            <img src="https://img.icons8.com/ios-filled/24/ffffff/home.png" alt="Home Icon">
+            <span>Home</span>
+        </div>
+        <div class="footer-item" onclick="navigateTo('invest')">
+            <img src="https://img.icons8.com/ios-filled/24/ffffff/money.png" alt="Invest Icon">
+            <span>Invest</span>
+        </div>
+        <div class="footer-item" onclick="navigateTo('task')">
+            <img src="https://img.icons8.com/ios-filled/24/ffffff/task.png" alt="Task Icon">
+            <span>Task</span>
+        </div>
+        <div class="footer-item" onclick="navigateTo('club')">
+            <img src="https://img.icons8.com/ios-filled/50/ffffff/conference-call.png" alt="Club Icon">
+            <span>Club</span>
+        </div>
+        <div class="footer-item" onclick="navigateTo('account')">
+            <img src="https://img.icons8.com/ios-filled/24/ffffff/user.png" alt="Account Icon">
+            <span>Account</span>
+        </div>
+    </div>
+
+    <script>
+        function openPopup(message) {
+            const popup = document.getElementById('popup');
+            popup.querySelector('.popup-content p').textContent = message;
+            popup.style.display = 'flex';
+        }
+
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+        }
+
+        function navigateTo(page) {
+            switch(page) {
+                case 'home':
+                    window.location.href = 'home.html';
+                    break;
+                case 'invest':
+                    window.location.href = 'invest.html';
+                    break;
+                case 'task':
+                    window.location.href = 'task.html';
+                    break;
+                case 'club':
+                    window.location.href = 'club.html';
+                    break;
+                case 'account':
+                    window.location.href = 'account.html';
+                    break;
+                default:
+                    console.log('Unknown page');
+            }
+        }
+
+        document.querySelectorAll('.action-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const page = this.getAttribute('data-page');
+                navigateTo(page);
+            });
+        });
+
+        document.querySelectorAll('.list-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const page = this.getAttribute('data-page');
+                navigateTo(page);
+            });
+        });
+
+        // Example usage
+        openPopup('Welcome to the website!');
+    </script>
+</body>
+</html>

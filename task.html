@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Treasure Box</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #e0f7ff;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 50px auto;
+        background-color: #ffffff;
+        border-radius: 15px;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        padding: 20px;
+        justify-content: space-between;
+      }
+
+      .content {
+        flex: 1;
+      }
+
+      .content h2 {
+        font-size: 24px;
+        margin: 0;
+        color: #333;
+      }
+
+      .content p {
+        color: #666;
+        margin: 5px 0 20px;
+      }
+
+      .bonus {
+        font-size: 18px;
+        color: #333;
+        margin: 15px 0;
+      }
+
+      .btn {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        font-size: 16px;
+        display: inline-block;
+      }
+
+      .btn:hover {
+        background-color: #0056b3;
+      }
+
+      .popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #ffffff;
+        padding: 20px;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        text-align: center;
+        display: none;
+      }
+
+      .popup h3 {
+        margin: 0;
+        font-size: 20px;
+        color: #333;
+      }
+
+      .popup button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .footer-item {
+  color: white;
+  text-align: center;
+  flex: 1;
+  font-size: 16px;
+}
+
+.footer-item a {
+  color: white; /* Ensure link text color is white */
+  text-decoration: none; /* Remove underline */
+}
+
+.footer-item a:hover {
+  text-decoration: underline; /* Optional: Add underline on hover */
+}
+
+.footer-item img {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 5px;
+}
+
+.footer-item span {
+  display: block;
+  font-size: 16px;
+}
+
+      .popup button:hover {
+        background-color: #0056b3;
+      }
+
+      .footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background: linear-gradient(to right, #1a508b, #1d87cb);
+        display: flex;
+        justify-content: space-around;
+        padding: 15px 0;
+        z-index: 1000;
+      }
+
+      .footer-item {
+        color: white;
+        text-align: center;
+        flex: 1;
+        font-size: 16px;
+      }
+
+      .footer-item img {
+        width: 24px;
+        height: 24px;
+        margin-bottom: 5px;
+      }
+
+      .footer-item span {
+        display: block;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="content">
+        <h2>Treasure box</h2>
+        <p>Follow the official channel to obtain the secret key</p>
+        <div class="bonus" id="bonusMessage">
+          Daily Login Bonus: 10Rs claimed for today!
+        </div>
+        <button class="btn" onclick="showPopup()">Go →</button>
+      </div>
+      <img src="treasure1.jpg" alt="Treasure Box" />
+    </div>
+
+    <div class="popup" id="popup">
+      <h3>STILL YOU NOT INVEST</h3>
+      <button onclick="closePopup()">Close</button>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-item">
+        <a href="home.html">
+          <img
+            src="https://img.icons8.com/ios-filled/50/ffffff/info.png"
+            alt="Home Icon"
+            title="Go to Home Page"
+          />
+          <span>Home</span>
+        </a>
+      </div>
+      <div class="footer-item">
+        <a href="investment_plan.html">
+          <img
+            src="https://img.icons8.com/ios-filled/50/ffffff/investment.png"
+            alt="Invest Icon"
+          />
+          <span>Invest</span>
+        </a>
+      </div>
+      <div class="footer-item">
+        <a href="task.html">
+          <img
+            src="https://img.icons8.com/ios-filled/50/ffffff/gift.png"
+            alt="Task Icon"
+          />
+          <span>Task</span>
+        </a>
+      </div>
+      <div class="footer-item">
+        <a href="club.html">
+          <img
+            src="https://img.icons8.com/ios-filled/50/ffffff/conference-call.png"
+            alt="Club Icon"
+          />
+          <span>Club</span>
+        </a>
+      </div>
+      <div class="footer-item">
+        <a href="account.html">
+          <img
+            src="https://img.icons8.com/ios-filled/50/ffffff/user.png"
+            alt="Account Icon"
+          />
+          <span>Account</span>
+        </a>
+      </div>
+    </footer>
+
+    <script>
+      function showPopup() {
+        document.getElementById("popup").style.display = "block";
+      }
+
+      function closePopup() {
+        document.getElementById("popup").style.display = "none";
+      }
+
+      function claimDailyIncome() {
+        document.getElementById("bonusMessage").textContent =
+          "Daily Login Bonus: 10Rs claimed for today!";
+      }
+
+      claimDailyIncome(); // Trigger on page load
+      setInterval(claimDailyIncome, 24 * 60 * 60 * 1000); // Auto claim every 24 hours
+    </script>
+  </body>
+</html>
