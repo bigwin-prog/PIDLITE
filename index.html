@@ -32,7 +32,7 @@
             width: 100%;
             padding: 10px;
             margin: 10px 0;
-            border: 2px solid #faa29f;
+            border: 2px solid #1a508b;
             border-radius: 8px;
             box-sizing: border-box;
             box-shadow: none;
@@ -57,7 +57,7 @@
             padding: 10px;
             border: none;
             border-radius: 5px;
-            background-color: #007BFF;
+            background-color: #1a508b;
             color: #fff;
             font-size: 16px;
             cursor: pointer;
@@ -65,7 +65,7 @@
             transition: background-color 0.3s ease;
         }
         button:hover {
-            background-color: #0056b3;
+            background-color: #003f5c;
         }
         button:disabled {
             background-color: #cccccc;
@@ -76,7 +76,7 @@
             margin-top: 20px;
         }
         .login-link a {
-            color: #007BFF;
+            color: #1a508b;
             text-decoration: none;
         }
         .login-link a:hover {
@@ -91,14 +91,14 @@
             border: 0;
             text-align: center;
             display: block;
-            background-color: #f9e8e8;
-            border-color: #f9e8e8 !important;
+            background-color: #1a508b;
+            border-color: #1a508b !important;
             font-size: 16px;
-            color: rgba(0, 0, 0, 0.87);
+            color: #fff;
         }
         .btn-otp:hover {
-            background-color: #f7d7d7;
-            color: #e60000;
+            background-color: #003f5c;
+            color: #fff;
         }
         /* Loading Screen */
         #loadingScreen {
@@ -122,13 +122,13 @@
             font-size: 21px;
             width: 90%;
             margin: 0 auto;
-            border: 1px solid #fd877f;
+            border: 1px solid #1a508b;
             color: #fff;
-            background-color: #fd877f;
+            background-color: #1a508b;
             box-shadow: 0 0 4px 3px rgb(92 186 71 / 60%);
         }
         .submitbtn:hover {
-            background-color: #fc5c5c;
+            background-color: #003f5c;
             color: #fff;
         }
         .registerback {
@@ -137,13 +137,13 @@
             font-weight: 400;
             font-size: 16px;
             margin: 0 auto;
-            border: 1px solid #fd877f;
-            color: #fd877f;
+            border: 1px solid #1a508b;
+            color: #1a508b;
             background-color: white;
         }
         .registerback:hover {
-            background-color: #ffe0e0;
-            color: #fd877f;
+            background-color: #e0f0ff;
+            color: #1a508b;
         }
         .appContent3 .back {
             position: absolute;
@@ -162,7 +162,7 @@
             background-color: #fff;
         }
         .inner-addon {
-            border: 2px solid #fbccca;
+            border: 2px solid #1a508b;
             border-radius: 10px;
         }
         .inner-addon .icon {
@@ -210,7 +210,7 @@
         }
         .appHeader1 {
             width: 100%;
-            background-image: linear-gradient(90deg, #fd877f, #f64841);
+            background-image: linear-gradient(90deg, #1a508b, #003f5c);
             color: #fff;
             z-index: 999;
             padding: 0 24px;
@@ -292,71 +292,28 @@
             <button id="getOtpBtn" class="btn-otp">Get OTP</button>
         </div>
         <p id="otpWarning" class="warning">Please enter your OTP.</p>
-        <button id="registerBtn" class="submitbtn">Register</button>
+        <button id="registerBtn" class="submitbtn" disabled>Register</button>
         <div class="login-link">
             <p>Already have an account? <a href="home.html">Login</a></p>
         </div>
     </div>
     <script>
-        document.getElementById('getOtpBtn').addEventListener('click', function () {
-            var phoneInput = document.getElementById('phone').value;
-            var phoneWarning = document.getElementById('phoneWarning');
-
-            if (phoneInput === "") {
-                phoneWarning.style.display = 'block';
-            } else {
-                phoneWarning.style.display = 'none';
-                var loadingScreen = document.getElementById('loadingScreen');
-                loadingScreen.style.display = 'flex';
-                setTimeout(function () {
-                    loadingScreen.style.display = 'none';
-                    var otpInput = document.getElementById('otp');
-                    otpInput.disabled = false;
-                    otpInput.value = Math.floor(100000 + Math.random() * 900000); // Generate a 6-digit OTP
-                }, 2000); // 2 seconds delay
-            }
+        // JavaScript code to handle OTP generation and registration
+        document.getElementById('getOtpBtn').addEventListener('click', function() {
+            document.getElementById('otp').disabled = false;
+            document.getElementById('getOtpBtn').disabled = true;
+            document.getElementById('registerBtn').disabled = false;
+            // Simulate OTP generation
+            setTimeout(function() {
+                document.getElementById('otp').value = Math.floor(100000 + Math.random() * 900000);
+            }, 2000);
         });
 
-        document.getElementById('registerBtn').addEventListener('click', function () {
-            var phoneInput = document.getElementById('phone').value;
-            var passwordInput = document.getElementById('password').value;
-            var otpInput = document.getElementById('otp').value;
-
-            var phoneWarning = document.getElementById('phoneWarning');
-            var passwordWarning = document.getElementById('passwordWarning');
-            var otpWarning = document.getElementById('otpWarning');
-
-            var isValid = true;
-
-            if (phoneInput === "") {
-                phoneWarning.style.display = 'block';
-                isValid = false;
-            } else {
-                phoneWarning.style.display = 'none';
-            }
-
-            if (passwordInput === "") {
-                passwordWarning.style.display = 'block';
-                isValid = false;
-            } else {
-                passwordWarning.style.display = 'none';
-            }
-
-            if (otpInput === "" || otpInput.length !== 6) {
-                otpWarning.style.display = 'block';
-                isValid = false;
-            } else {
-                otpWarning.style.display = 'none';
-            }
-
-            if (isValid) {
-                var loadingScreen = document.getElementById('loadingScreen');
-                loadingScreen.style.display = 'flex';
-                setTimeout(function () {
-                    loadingScreen.style.display = 'none';
-                    window.location.href = "home.html"; // Redirect to home page
-                }, 1500); // 1.5 seconds delay
-            }
+        document.getElementById('registerBtn').addEventListener('click', function() {
+            document.getElementById('loadingScreen').style.display = 'flex';
+            setTimeout(function() {
+                window.location.href = 'home.html';
+            }, 1500);
         });
     </script>
 </body>
