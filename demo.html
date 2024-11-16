@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BIGWIN</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #1e90ff, #ff7f50);
+        overflow-y: auto; /* Allow vertical scrolling */
+        padding-bottom: 20px;
+      }
+
+      h1 {
+        font-size: 3rem;
+        color: #fff;
+        animation: fadeIn 1.5s forwards, bounce 1s infinite alternate;
+      }
+      @keyframes bounce {
+        from {
+          transform: translateY(0);
+        }
+        to {
+          transform: translateY(-10px);
+        }
+      }
+
+      .button-container {
+        display: flex;
+        justify-content: center; /* Centers buttons horizontally */
+        gap: 20px; /* Spacing between the buttons */
+        margin-top: 20px;
+      }
+      .button {
+        padding: 15px 30px;
+        font-size: 1.2rem;
+        color: #fff;
+        background-color: #1e90ff;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: transform 0.3s ease, background-color 0.3s ease,
+          box-shadow 0.3s ease;
+        animation: fadeInUp 1.5s forwards;
+      }
+      .button:hover {
+        background-color: #ff7f50;
+        transform: translateY(-5px);
+        box-shadow: 0 4px 10px rgba(255, 127, 80, 0.5);
+      }
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .button:focus {
+        outline: none;
+        box-shadow: 0 0 10px rgba(30, 144, 255, 0.6);
+      }
+
+      .background-animation {
+        position: absolute;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        z-index: -1;
+      }
+      .background-animation span {
+        position: absolute;
+        display: block;
+        width: 60px;
+        height: 60px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 50%;
+        animation: animate 25s linear infinite;
+      }
+      .background-animation span:nth-child(odd) {
+        background: rgba(255, 255, 255, 0.2);
+      }
+      @keyframes animate {
+        0% {
+          transform: scale(0) translateY(0);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1) translateY(-100vh);
+          opacity: 0;
+        }
+      }
+      .background-animation span:nth-child(1) {
+        left: 5%;
+        animation-delay: 0s;
+      }
+      .background-animation span:nth-child(2) {
+        left: 25%;
+        animation-delay: 3s;
+      }
+      .background-animation span:nth-child(3) {
+        left: 50%;
+        animation-delay: 6s;
+      }
+      .background-animation span:nth-child(4) {
+        left: 75%;
+        animation-delay: 9s;
+      }
+      .background-animation span:nth-child(5) {
+        left: 95%;
+        animation-delay: 12s;
+      }
+
+      .popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 300px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        z-index: 1;
+      }
+      .popup p {
+        font-size: 1.1rem;
+        color: #333;
+        margin-bottom: 20px;
+      }
+      .close-btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+        color: #fff;
+        background-color: #1e90ff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .close-btn:hover {
+        background-color: #ff7f50;
+      }
+
+      /* Container Styles */
+      .container {
+        width: 90%;
+        max-width: 500px;
+        background: #fff;
+        border-radius: 8px;
+        padding: 30px 20px; /* Increased padding for better space */
+        margin-top: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        transition: transform 0.3s;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .container h2,
+      .container p,
+      .container .input-code {
+        margin-bottom: 15px;
+      }
+
+      /* Input Fields */
+      .input-code {
+        padding: 10px;
+        margin-top: 10px;
+        width: 80%;
+        font-size: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+
+      /* Error Message Styling */
+      .error {
+        color: red;
+        font-size: 0.9rem;
+        margin-top: 5px;
+      }
+
+      /* Timer Styling */
+      .timer {
+        font-size: 1.2rem;
+        color: #ff7f50;
+        font-weight: bold;
+        margin-top: 10px;
+      }
+
+      /* Scroll Buttons Styles */
+      .scroll-buttons {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .scroll-button {
+        padding: 10px;
+        background-color: rgba(255, 255, 255, 0.8);
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1.5rem;
+        transition: background-color 0.3s ease;
+      }
+
+      .scroll-button:hover {
+        background-color: rgba(255, 127, 80, 0.7);
+      }
+
+      /* Responsive Styles */
+      @media (max-width: 600px) {
+        h1 {
+          font-size: 2.5rem;
+        }
+        .button {
+          padding: 10px 20px;
+          font-size: 1rem;
+        }
+        .container {
+          padding: 20px 15px;
+        }
+      }
+    </style>
+    <script>
+      // Function to set a cookie
+function setCookie(name, value, days) {
+  const date = new Date();
+  date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+  document.cookie = `${name}=${value};expires=${date.toUTCString()};path=/`;
+}
+
+// Function to delete a cookie
+function deleteCookie(name) {
+  document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/`;
+  console.log(`${name} cookie deleted`);
+}
+
+// Function to get a cookie value
+function getCookie(name) {
+  const cookies = document.cookie.split(";");
+  for (let i = 0; i < cookies.length; i++) {
+    const cookie = cookies[i].trim();
+    if (cookie.startsWith(`${name}=`)) {
+      return cookie.substring(name.length + 1);
+    }
+  }
+  return null;
+}
+
+// Function to start or resume a timer
+function startTimer(id, duration) {
+  let timer = duration;
+  const element = document.getElementById(id);
+
+  // Save the timer in a cookie
+  setCookie(`timer_${id}`, timer, 1);
+
+  // Display the timer
+  element.style.display = "block";
+
+  const interval = setInterval(() => {
+    const hours = Math.floor(timer / 3600);
+    const minutes = Math.floor((timer % 3600) / 60);
+    const seconds = timer % 60;
+    element.innerHTML = `${hours}:${minutes < 10 ? "0" : ""}${minutes}:${
+      seconds < 10 ? "0" : ""
+    }${seconds}`;
+    timer--;
+
+    // Update the cookie each second
+    setCookie(`timer_${id}`, timer, 1);
+
+    if (timer < 0) {
+      element.innerHTML = "Time's up!";
+      clearInterval(interval);
+      setCookie(`timer_${id}`, "", -1); // Clear the cookie
+    }
+  }, 1000);
+}
+
+// Function to delete a timer and its associated cookie
+function deleteTimer(timerId) {
+  // Delete the cookie
+  deleteCookie(`timer_${timerId}`);
+
+  // Hide the timer on the page
+  const timerElement = document.getElementById(timerId);
+  if (timerElement) {
+    timerElement.style.display = "none";
+    timerElement.innerHTML = ""; // Clear any content
+  }
+
+  console.log(`Timer ${timerId} deleted.`);
+}
+
+// Function to verify input codes and start the timer
+// Function to verify input codes and start the timer
+function verifyCode(level, timerId) {
+  const input = document.getElementById(`input-${level}`);
+  let correctCode;
+
+  if (level === 1) {
+    correctCode = "12345";
+  } else if (level === 2) {
+    correctCode = "67890";
+  } else if (level === 3) {
+    correctCode = "abcde";
+  }
+
+  const errorMsg = document.getElementById(`error-${level}`);
+
+  if (input.value === correctCode) {
+    errorMsg.textContent = "";
+
+    // Check if a timer already exists in the cookie
+    const savedTimer = getCookie(`timer_${timerId}`);
+    if (savedTimer && !isNaN(savedTimer) && savedTimer > 0) {
+      startTimer(timerId, parseInt(savedTimer));
+    } else {
+      // Start a new timer with 1-minute duration (60 seconds)
+      startTimer(timerId, 60); 
+    }
+  } else {
+    errorMsg.textContent = "Enter correct code";
+  }
+}
+
+// Function to start or resume a timer
+function startTimer(id, duration) {
+  let timer = duration;
+  const element = document.getElementById(id);
+
+  // Save the timer in a cookie
+  setCookie(`timer_${id}`, timer, 1);
+
+  // Display the timer
+  element.style.display = "block";
+
+  const interval = setInterval(() => {
+    const hours = Math.floor(timer / 3600);
+    const minutes = Math.floor((timer % 3600) / 60);
+    const seconds = timer % 60;
+    element.innerHTML = `${hours}:${minutes < 10 ? "0" : ""}${minutes}:${
+      seconds < 10 ? "0" : ""
+    }${seconds}`;
+    timer--;
+
+    // Update the cookie each second
+    setCookie(`timer_${id}`, timer, 1);
+
+    if (timer < 0) {
+      element.innerHTML = "Time's up!";
+      clearInterval(interval);
+      setCookie(`timer_${id}`, "", -1); // Clear the cookie
+    }
+  }, 1000);
+}
+
+
+    </script>
+  </head>
+  <body>
+    <h1>BIGWIN</h1>
+
+    <div class="button-container">
+      <button class="button" onclick="openWithdrawPage()">Withdraw</button>
+      <button class="button" onclick="openProfilePopup()">Profile</button>
+    </div>
+
+    <div id="profilePopup" class="popup">
+      <p>You need to cross the level too</p>
+      <button class="close-btn" onclick="closePopup()">Close</button>
+    </div>
+
+    <!-- Level 1 -->
+    <div class="container">
+      <h2>Level 1</h2>
+      <p>Amount: 10</p>
+      <p>Duration: 1 hour</p>
+      <p>Win Amount: $20</p>
+      <input
+        id="input-1"
+        class="input-code"
+        type="text"
+        placeholder="Enter 5-digit code"
+      />
+
+      <div class="button-container">
+        <button class="button" onclick="verifyCode(1, 'timer1')">Start</button>
+        <button class="button" onclick="window.location.href='buyPage1.html'">
+          Buy
+        </button>
+      </div>
+
+      <div class="error" id="error-1"></div>
+      <div class="timer" id="timer1"></div>
+    </div>
+
+    <!-- Level 2 -->
+    <div class="container">
+      <h2>Level 2</h2>
+      <p>Amount: 500</p>
+      <p>Duration: 1 hour</p>
+      <p>Win Amount: 1000</p>
+      <input
+        id="input-2"
+        class="input-code"
+        type="text"
+        placeholder="Enter 5-digit code"
+      />
+
+      <div class="button-container">
+        <button class="button" onclick="verifyCode(2, 'timer2')">Start</button>
+        <button class="button" onclick="window.location.href='buyPage2.html'">
+          Buy
+        </button>
+      </div>
+
+      <div class="error" id="error-2"></div>
+      <div class="timer" id="timer2"></div>
+    </div>
+
+    <!-- Level 3 -->
+    <div class="container">
+      <h2>Level 3</h2>
+      <p>Amount: 1000</p>
+      <p>Duration: 1 hour</p>
+      <p>Win Amount: 2000</p>
+      <input
+        id="input-3"
+        class="input-code"
+        type="text"
+        placeholder="Enter 5-digit code"
+      />
+
+      <div class="button-container">
+        <button class="button" onclick="verifyCode(3, 'timer3')">Start</button>
+        <button class="button" onclick="window.location.href='buyPage3.html'">
+          Buy
+        </button>
+      </div>
+
+      <div class="error" id="error-3"></div>
+      <div class="timer" id="timer3"></div>
+    </div>
+
+    <div class="background-animation">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+  </body>
+</html>
